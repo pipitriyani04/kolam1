@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Aplikasi Penjualan</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#f5f5f5;
+  padding:20px;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  background:white;
+  padding:20px;
+  border-radius:8px;
+}
+label{font-weight:bold; display:block; margin-top:10px;}
+input, select, button{
+  width:100%;
+  padding:8px;
+  margin-top:5px;
+}
+button{
+  background:#4CAF50;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+th,td{
+  border:1px solid #ccc;
+  padding:8px;
+  text-align:center;
+}
+.lunas{color:green;font-weight:bold;}
+.belum{color:red;font-weight:bold;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Aplikasi Penjualan</h2>
+
+<label>Nama Pembeli</label>
+<input type="text" id="pembeli">
+
+<label>Nama Barang</label>
+<input type="text" id="barang">
+
+<label>Harga Satuan</label>
+<input type="number" id="harga" oninput="hitungSubtotal()">
+
+<label>Jumlah</label>
+<input type="number" id="jumlah" oninput="hitungSubtotal()">
+
+<label>Subtotal</label>
+<input type="number" id="subtotal" readonly>
+
+
+<label>Status Pembayaran</label>
+<select id="status">
+  <option value="">-- Pilih --</option>
+  <option value="Lunas">Lunas</option>
+  <option value="Belum Bayar">Belum Bayar</option>
+</select>
+
+<br><br>
+<button type="button" onclick="tambahTransaksi()">Tambah Transaksi</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pembeli</th>
+      <th>Barang</th>
+      <th>Harga</th>
+      <th>Jumlah</th>
+      <th>Subtotal</th>
+      <th>Status</th>
+      <th>Aksi</th>
+    </tr>
+    </thead>
+    
+<tbody id="data"></tbody>
+</table>
+
+<h3>Total: Rp <span id="total">0</span></h3>
+</div>
+
+<script>
+  let total = 0;
+  
+  /* ===== FUNGSI SUBTOTAL OTOMATIS ===== */
+  function hitungSubtotal(){
+    const harga = Number(document.getElementById("harga").value) || 0;
+    const jumlah = Number(document.getElementById("jumlah").value) || 0;
+    document.getElementById("subtotal").value = harga * jumlah;
+  }
+  
+  /* ===== FUNGSI TAMBAH TRANSAKSI ===== */
+  function tambahTransaksi(){
+    const pembeli = document.getElementById("pembeli").value;
+    const barang = document.getElementById("barang").value;
+    const harga = Number(document.getElementById("harga").value);
+    const jumlah = Number(document.getElementById("jumlah").value);
+    const subtotal = Number(document.getElementById("subtotal").value);
+    const status = document.getElementById("status").value;
+  
+    if(pembeli=="" || barang=="" || harga==0 || jumlah==0 || status==""){
+      alert("Data belum lengkap");
+      return;
+    }
+  
+    const tabel = document.getElementById("data");
+    let pembeliDitemukan = false;
+  
+    for(let i = 0; i < tabel.rows.length; i++){
+      const row = tabel.rows[i];
+      if(row.cells[0].innerText === pembeli && row.cells[1].innerText === barang){
+        row.cells[3].innerText = Number(row.cells[3].innerText) + jumlah;
+        row.cells[4].innerText = Number(row.cells[4].innerText) + subtotal;
+        pembeliDitemukan = true;
+        break;
+      }
+    }
+  
+    if(!pembeliDitemukan){
+      const row = tabel.insertRow();
+      row.insertCell(0).innerText = pembeli;
+      row.insertCell(1).innerText = barang;
+      row.insertCell(2).innerText = harga;
+      row.insertCell(3).innerText = jumlah;
+      row.insertCell(4).innerText = subtotal;
+  
+      const statusCell = row.insertCell(5);
+      statusCell.innerText = status;
+      statusCell.className = status === "Lunas" ? "lunas" : "belum";
+  
+      row.insertCell(6).innerHTML =
+        status === "Belum Bayar"
+        ? `<button onclick="ubahLunas(this)">Bayar</button>`
+        : "-";
+    }
+  
+    total += subtotal;
+    document.getElementById("total").innerText = total;
+  
+    document.getElementById("barang").value="";
+    document.getElementById("harga").value="";
+    document.getElementById("jumlah").value="";
+    document.getElementById("subtotal").value="";
+  }
+  </script>
+  
+  
+  
+
+</body>
+</html>
