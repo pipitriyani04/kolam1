@@ -2,165 +2,347 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Aplikasi Penjualan</title>
+<title>Aplikasi Kolam Pemancingan - Final</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-  font-family: Arial;
-  background:#f5f5f5;
-  padding:20px;
+body{font-family:Arial;background:#f5f5f5;padding:20px}
+.container{max-width:1200px;margin:auto;background:#fff;padding:20px;border-radius:8px}
+label{font-weight:bold;display:block;margin-top:10px}
+input,select,button{width:100%;padding:8px;margin-top:5px}
+button{background:#4CAF50;color:#fff;border:none;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th,td{border:1px solid #ccc;padding:8px;text-align:center}
+.totalLapak{background:#e8f5e9;font-weight:bold}
+.lunas{color:green;font-weight:bold}
+.belum{color:red;font-weight:bold}
+.report{background:#f1f8e9;padding:15px;margin-top:20px;border-radius:6px}
+.small-btn{display:inline-block;margin-top:6px;padding:6px 10px;background:#1976d2;color:#fff;border-radius:4px;cursor:pointer;border:none}
+.judul{
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: bold;
 }
-.container{
-  max-width:900px;
-  margin:auto;
-  background:white;
-  padding:20px;
-  border-radius:8px;
+/* ===== MODE HP ===== */
+@media (max-width: 768px){
+
+  body{
+    padding:10px;
+  }
+
+  .container{
+    padding:15px;
+  }
+
+  label{
+    font-size:14px;
+  }
+
+  input, select, button{
+    font-size:14px;
+    padding:10px;
+  }
+
+  button{
+    margin-top:10px;
+  }
+
+  table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+
+  th, td{
+    font-size:13px;
+    padding:6px;
+  }
+
+  .totalLapak td{
+    font-size:14px;
+  }
+
+  .report{
+    font-size:14px;
+  }
+
+  .small-btn{
+    font-size:12px;
+    padding:5px 8px;
+  }
+
+  .judul{
+    font-size:20px;
+  }
 }
-label{font-weight:bold; display:block; margin-top:10px;}
-input, select, button{
-  width:100%;
-  padding:8px;
-  margin-top:5px;
-}
-button{
-  background:#4CAF50;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:20px;
-}
-th,td{
-  border:1px solid #ccc;
-  padding:8px;
-  text-align:center;
-}
-.lunas{color:green;font-weight:bold;}
-.belum{color:red;font-weight:bold;}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-<h2>Aplikasi Penjualan</h2>
+  <h2 class="judul">Alikasi Penjualan Kolam Pemancingan Rajawali</h2>
 
-<label>Nama Pembeli</label>
-<input type="text" id="pembeli">
-
-<label>Nama Barang</label>
-<input type="text" id="barang">
-
-<label>Harga Satuan</label>
-<input type="number" id="harga" oninput="hitungSubtotal()">
-
-<label>Jumlah</label>
-<input type="number" id="jumlah" oninput="hitungSubtotal()">
-
-<label>Subtotal</label>
-<input type="number" id="subtotal" readonly>
+  <label>Nama Lapak</label>
+<input type="text" id="lapak" placeholder="Contoh: Saung Timur / Lapak VIP">
 
 
-<label>Status Pembayaran</label>
-<select id="status">
-  <option value="">-- Pilih --</option>
-  <option value="Lunas">Lunas</option>
-  <option value="Belum Bayar">Belum Bayar</option>
-</select>
+  <label>Nama Barang</label>
+  <select id="layanan" onchange="setHarga()">
+    <option value="">-- Pilih --</option>
+    <option>Nipis Madu</option>
+    <option>Kopi</option>
+    <option>Roti</option>
+    <option>Aqua Botol</option>
+    <option>Teh Kotak</option>
+    <option>Teh Pucuk</option>
+    <option>Indotelor</option>
+    <option>Indomie</option>
+    <option>Pop Mie</option>
+    <option>Golda</option>
+    <option>Bintang Jero</option>
+    <option>Larutan Kaleng</option>
+    <option>Milku</option>
+    <option>Floridina</option>
+    <option>Gorengan 1 Porsi</option>
+    <option>Gorengan 1/2 Porsi</option>
+    <option>Kacang Kulit</option>
+    <option>Kerupuk</option>
+    <option>ISO Plus</option>
+    <option>Tolak Angin</option>
+    <option>Korek Api</option>
+    <option>Sampoerna Mild</option>
+    <option>ClassMild</option>
+    <option>Magnum Max</option>
+    <option>Magnum Filter</option>
+    <option>Jarum Super</option>
+    <option>Garfit</option>
+    <option>Jarum Coklat</option>
+    <option>Sampoerna Kretek</option>
+    <option>Samsoe Refil</option>
+    <option>Esse</option>
+    <option>Malboro</option>
+    <option>Jazy Poppin</option>
+    <option>Magnum 1/2</option>
+    <option>Jarum Coklat 1/2</option>
 
-<br><br>
-<button type="button" onclick="tambahTransaksi()">Tambah Transaksi</button>
+  </select>
 
-<table>
-  <thead>
-    <tr>
-      <th>Pembeli</th>
-      <th>Barang</th>
-      <th>Harga</th>
-      <th>Jumlah</th>
-      <th>Subtotal</th>
-      <th>Status</th>
-      <th>Aksi</th>
-    </tr>
+  <label>Harga</label>
+  <input type="number" id="harga" readonly>
+
+  <label>Jumlah</label>
+  <input type="number" id="jumlah" oninput="hitungSubtotal()">
+
+  <label>Subtotal</label>
+  <input type="number" id="subtotal" readonly>
+
+  <br><br>
+  <button onclick="tambahTransaksi()">Tambah Transaksi</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Lapak</th>
+        <th>Barang</th>
+        <th>Harga</th>
+        <th>Jumlah</th>
+        <th>Subtotal</th>
+      </tr>
     </thead>
-    
-<tbody id="data"></tbody>
-</table>
+    <tbody id="data"></tbody>
+  </table>
 
-<h3>Total: Rp <span id="total">0</span></h3>
+  <!-- LAPORAN HARIAN -->
+  <div class="report">
+    <h3>Laporan Harian</h3>
+    <p>Total Pendapatan: <b>Rp <span id="lapTotal">0</span></b></p>
+    <p>Lapak Tersedia: <b><span id="lapAktif">0</span></b></p>
+    <p>Lapak Lunas: <b><span id="lapLunas">0</span></b></p>
+    <p>Lapak Belum Bayar: <b><span id="lapBelum">-</span></b></p>
+    <!-- daftar terpisah (lebih jelas) -->
+    <div id="listBelumContainer" style="margin-top:8px"></div>
+
+    <button onclick="resetHarian()">Reset Hari (Tutup Buku)</button>
+    <button onclick="exportCSV()" class="small-btn">Export CSV</button>
+  </div>
 </div>
 
 <script>
-  let total = 0;
-  
-  /* ===== FUNGSI SUBTOTAL OTOMATIS ===== */
-  function hitungSubtotal(){
-    const harga = Number(document.getElementById("harga").value) || 0;
-    const jumlah = Number(document.getElementById("jumlah").value) || 0;
-    document.getElementById("subtotal").value = harga * jumlah;
+/* ===== STORAGE & STATE ===== */
+let transaksi = JSON.parse(localStorage.getItem("transaksi")) || [];
+let totalLapak = JSON.parse(localStorage.getItem("totalLapak")) || {};
+let statusLapak = JSON.parse(localStorage.getItem("statusLapak")) || {}; // "Belum Bayar" / "Lunas"
+
+
+
+/* ===== UTILS ===== */
+function setHarga(){
+  const l = layanan().value;
+  harga().value = l==="Nipis Madu"?5000 :  l==="Kopi"?5000 :  l==="Roti"?3000 : l==="Aqua Botol"?5000 : l==="Teh Kotak"?5000 : l==="Teh Pucuk"?6000 :  l==="Indotelor"?13000 :  l==="Indomie"?10000 :  l==="Pop Mie"?8000 :  l==="Golda"?5000 :  l==="Bintang Jero"?10000 : 
+   l==="Larutan Kaleng"?10000 :  l==="Milku"?5000 :  l==="Floridina"?5000 :  l==="Gorengan 1 Porsi"?10000 : l==="Gorengan 1/2 Porsi"?5000 : l==="Kacang Kulit"?2500 : l==="Kerupuk"?2000 : l==="ISO Plus"?5000 : l==="Tolak Angin"?5000 :  l==="Korek Api"?5000 : l==="Sampoerna Mild"?38000 :  l==="ClassMild"?30.000: l==="Magnum Max"?30000 :  l==="Magnum Filter"?28000 : l==="Jarum Super"?28000 : l==="Garfit"?27000 :
+    l==="Jarum Coklat"?19000 :  l==="Sampoerna Kretek"?22000 :  l==="Samsoe Refil"?25000:  l==="Esse"?42000 :  l==="Malboro"?42000 :  l==="Jazy Poppin"?26000  : l==="Magnum 1/2"?15000 : l==="Jarum Coklat 1/2"?10000 :0;
+  hitungSubtotal();
+}
+function hitungSubtotal(){
+  subtotal().value = (Number(harga().value)||0) * (Number(jumlah().value)||0);
+}
+function rupiah(angka){
+  return "Rp " + Number(angka).toLocaleString("id-ID");
+}
+
+/* ===== TRANSAKSI ===== */
+function tambahTransaksi(){
+  if(!lapak().value || !layanan().value || Number(jumlah().value) <= 0){
+    alert("Data belum lengkap"); return;
   }
-  
-  /* ===== FUNGSI TAMBAH TRANSAKSI ===== */
-  function tambahTransaksi(){
-    const pembeli = document.getElementById("pembeli").value;
-    const barang = document.getElementById("barang").value;
-    const harga = Number(document.getElementById("harga").value);
-    const jumlah = Number(document.getElementById("jumlah").value);
-    const subtotal = Number(document.getElementById("subtotal").value);
-    const status = document.getElementById("status").value;
-  
-    if(pembeli=="" || barang=="" || harga==0 || jumlah==0 || status==""){
-      alert("Data belum lengkap");
-      return;
-    }
-  
-    const tabel = document.getElementById("data");
-    let pembeliDitemukan = false;
-  
-    for(let i = 0; i < tabel.rows.length; i++){
-      const row = tabel.rows[i];
-      if(row.cells[0].innerText === pembeli && row.cells[1].innerText === barang){
-        row.cells[3].innerText = Number(row.cells[3].innerText) + jumlah;
-        row.cells[4].innerText = Number(row.cells[4].innerText) + subtotal;
-        pembeliDitemukan = true;
-        break;
-      }
-    }
-  
-    if(!pembeliDitemukan){
-      const row = tabel.insertRow();
-      row.insertCell(0).innerText = pembeli;
-      row.insertCell(1).innerText = barang;
-      row.insertCell(2).innerText = harga;
-      row.insertCell(3).innerText = jumlah;
-      row.insertCell(4).innerText = subtotal;
-  
-      const statusCell = row.insertCell(5);
-      statusCell.innerText = status;
-      statusCell.className = status === "Lunas" ? "lunas" : "belum";
-  
-      row.insertCell(6).innerHTML =
-        status === "Belum Bayar"
-        ? `<button onclick="ubahLunas(this)">Bayar</button>`
-        : "-";
-    }
-  
-    total += subtotal;
-    document.getElementById("total").innerText = total;
-  
-    document.getElementById("barang").value="";
-    document.getElementById("harga").value="";
-    document.getElementById("jumlah").value="";
-    document.getElementById("subtotal").value="";
+
+  const obj = {
+    id: Date.now() + Math.random().toString(36).slice(2,7),
+    lapak: lapak().value,
+    layanan: layanan().value,
+    harga: Number(harga().value),
+    jumlah: Number(jumlah().value),
+    subtotal: Number(subtotal().value)
+  };
+
+  transaksi.push(obj);
+  totalLapak[obj.lapak] = (totalLapak[obj.lapak] || 0) + obj.subtotal;
+  statusLapak[obj.lapak] ??= "Belum Bayar";
+
+  simpan();
+  render();
+
+  jumlah().value = "";
+  subtotal().value = "";
+}
+
+/* ===== PEMBAYARAN & TUTUP LAPAK ===== */
+function bayarLapak(l){
+  statusLapak[l] = "Lunas";
+  simpan();
+  render();
+}
+
+function tutupLapak(l){
+  if(!confirm(`Tutup ${l} dan reset transaksi?`)) return;
+  transaksi = transaksi.filter(t => t.lapak !== l);
+  delete totalLapak[l];
+  delete statusLapak[l];
+  simpan();
+  render();
+}
+
+/* ===== RENDER ===== */
+function render(){
+  const tb = document.getElementById("data");
+  tb.innerHTML = "";
+
+  // urutkan lapak 1..40 agar tampil konsisten
+  const lapakOrder = [];
+  for(let i=1;i<=40;i++) lapakOrder.push(`Lapak ${i}`);
+
+  // kumpulkan lapak yang ada di transaksi (tetap urut sesuai lapakOrder)
+  const lapakSet = [...new Set(transaksi.map(t => t.lapak))].sort((a,b)=>{
+    return lapakOrder.indexOf(a) - lapakOrder.indexOf(b);
+  });
+
+  lapakSet.forEach(l => {
+    // semua transaksi lapak l
+    transaksi.filter(t => t.lapak === l).forEach(t => {
+      tb.innerHTML += `
+        <tr data-lapak="${t.lapak}">
+          <td>${t.lapak}</td>
+          <td>${t.layanan}</td>
+          <td>${rupiah(t.harga)}</td>
+          <td>${t.jumlah}</td>
+          <td>${rupiah(t.subtotal)}</td>
+        </tr>`;
+    });
+
+    // baris total per lapak (dengan tombol bayar & tutup)
+    const status = statusLapak[l] || "Belum Bayar";
+    tb.innerHTML += `
+      <tr class="totalLapak" data-total="${l}">
+        <td>${l}</td>
+        <td colspan="3">TOTAL</td>
+        <td>
+          ${rupiah(totalLapak[l] || 0)}<br>
+          <span class="${status==="Lunas"?"lunas":"belum"}">${status}</span><br>
+          ${status==="Belum Bayar" ? `<button onclick="bayarLapak('${l}')">Bayar</button>` : ""}
+          <button onclick="tutupLapak('${l}')">Tutup Lapak</button>
+        </td>
+      </tr>`;
+  });
+
+  // update laporan angka
+  document.getElementById("lapTotal").innerText =
+  rupiah(Object.values(totalLapak).reduce((a,b)=>a+b,0));
+  document.getElementById("lapAktif").innerText = lapakSet.length;
+  document.getElementById("lapLunas").innerText = Object.values(statusLapak).filter(s=>s==="Lunas").length;
+
+  // daftar lapak belum bayar (list)
+  const belum = Object.keys(statusLapak).filter(k => statusLapak[k] === "Belum Bayar");
+  document.getElementById("lapBelum").innerText = belum.length ? belum.join(", ") : "-";
+
+  // juga tampilkan sebagai list terpisah untuk keterbacaan
+  const listContainer = document.getElementById("listBelumContainer");
+  listContainer.innerHTML = "";
+  if(belum.length){
+    const ul = document.createElement("ul");
+    belum.forEach(l => {
+      const li = document.createElement("li");
+      li.innerHTML = `${l} — ${rupiah(totalLapak[l] || 0)} <button class="small-btn" onclick="bayarLapak('${l}')">Bayar</button>`;
+      ul.appendChild(li);
+    });
+    listContainer.appendChild(ul);
   }
-  </script>
-  
-  
-  
+}
+
+/* ===== STORAGE ===== */
+function simpan(){
+  localStorage.setItem("transaksi", JSON.stringify(transaksi));
+  localStorage.setItem("totalLapak", JSON.stringify(totalLapak));
+  localStorage.setItem("statusLapak", JSON.stringify(statusLapak));
+}
+
+/* ===== RESET HARIAN ===== */
+function resetHarian(){
+  if(!confirm("Reset semua data hari ini?")) return;
+  transaksi = []; totalLapak = {}; statusLapak = {};
+  simpan(); render();
+}
+
+/* ===== EXPORT (opsional) ===== */
+function exportCSV(){
+  // simple CSV export of transaksi
+  if(!transaksi.length){ alert("Tidak ada transaksi untuk diexport."); return; }
+  const header = ["lapak","layanan","harga","jumlah","subtotal"];
+  const rows = transaksi.map(t => header.map(h => `"${String(t[h]).replace(/"/g,'""')}"`).join(","));
+  const csv = [header.join(","), ...rows].join("\n");
+  const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `transaksi_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/* ===== HELPERS ===== */
+const lapak = ()=>document.getElementById("lapak");
+const layanan = ()=>document.getElementById("layanan");
+const harga = ()=>document.getElementById("harga");
+const jumlah = ()=>document.getElementById("jumlah");
+const subtotal = ()=>document.getElementById("subtotal");
+
+/* ===== INIT ===== */
+render();
+</script>
 
 </body>
 </html>
